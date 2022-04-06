@@ -4,40 +4,72 @@
 
 [RU](https://github.com/maxivimax/SWController/blob/main/README.md)/[EN](https://github.com/maxivimax/SWController/blob/main/READMEen.md)
 
-> A template for creating new repositories in the @orbitdb organization
+> Система управления аппаратом точечной сварки
 
-This repository is meant to serve as a general template for how to set up new repositories in the @orbitdb organization. In general, setting up a new repository should take only a few minutes; use this repository as a way of finding example files, and use the following checklist to ensure that you've set up the repository correctly.
+## Функции
 
-## Install
+//Тут записать функционал//
 
-These instructions are basic; you can use any method to do this work. The important part is making sure that you follow the checklist below before publishing the repository.
+## Необходимые модули
 
-```sh
-# Let's make a new folder
-mkdir new-repo && cd new-repo
-# Start a Git instance and copy over template files.
-git init
-cp ../repo-template/* .
-# Overwrite this README
-mv README.md setup-checklist.md
-mv example-README.md README.md
-# Go over and check off the checklist, and finally
-rm setup-checklist
-```
+Для сборки необходимы:
++ Arduino Uno (Nano)
++ Экран 16x2
++ Энкодер
++ Реле
++ Потенциометр (Для настройки контраста дисплея)
++ Кнопка (В случае если энкодер без кнопки)
 
-## Checklist
+## Установка
 
-Go through this checklist after creating your repository. It should only take a couple of minutes; if there is a way to make this more efficient, open an issue and let's talk about it here! \m/
+Для начала установите библиотеки:
++ [EncButton](https://github.com/GyverLibs/EncButton)
++ [microWire](https://github.com/GyverLibs/microWire)
++ [LiquidCrystal](https://github.com/arduino-libraries/LiquidCrystal)
++ SimpleMenu16PIN ([MeatBallDev/SimpleMenu16PIN](https://github.com/MeatBallDev/SimpleMenu16PIN))
 
-### README
-- [ ] Copy `example-README.md` from this repository to your directory.
-- [ ] Rename all instances of `<Replace Title>` in README to match the new repo title
-- [ ] Manually go through and edit the rest of the README.
+## Подключение
 
-### Other Files
-- [ ] Copy `CODE_OF_CONDUCT.md` verbatim.
-- [ ] Copy `CONTRIBUTING.md` and ensure that you've added any repository-specific instructions. (Replace `<Replace Title>` again).
-- [ ] Should you have a `CHANGELOG.md`? Document your release process, if you plan on having one, in the `CONTRIBUTING.md` file.
+//Тут описать подключение//
 
-### Dotfiles
-- [ ] Do you need a `.gitignore` file?
+## Использование
+
+После запуска появится главный экран. Недобходимо 1 раз нажать на энкодер/кнопку.
+После этого у Вас откроется меню с такими пунктами:
++ Run
++ M. run
++ Profiles
++ Min. time
++ Max. time
++ Info
+
+Пройдемся по функциональным пунктам :)
+
+#### Run
+***W.I.P.*** Запуск сварки с помощью одного из профилей работы.
+
+#### M. run
+Запуск сварки на указанное время. (В пределах минимального/максимального)
+
+#### Profiles
+***W.I.P.*** Создание/редактирование профилей работы.
+
+#### Min. time
+Тут указывается минимально возможное время сварки.
+
+#### Max. time
+Тут указывается максимально возможное время сварки.
+
+## Планы на будущее
+
+Некоторые планы на данный проект \m/
+- [ ] Закончить работу над профилями металлов.
+- [ ] Добавить иконки для упрощенного использования.
+- [ ] Добавить возможность включать сварку, пока удерживается энкодер.
+- [ ] Сделать 3D модель универсального корпуса.
+
+## Обратная связь
+
+Если у Вас есть идеи для новых функций, вопросы и т.д. пишите в "issues" или мне в соц. сети. Я обязательно вам отвечу ;)
++ [VK (Maxivimax)](https://vk.com/maxivimax)
++ [Telegram (Maxivimax)](https://t.me/maxivimax)
