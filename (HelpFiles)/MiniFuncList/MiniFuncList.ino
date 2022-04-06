@@ -13,7 +13,27 @@ byte heart[8] = {
   B00100,
   B00000,
   B00000};
+
+void resetEEPROM(){
+  enc2.tick();
   
+  LCD.setCursor(0, 0);
+  LCD.print("Reset EEPROM");
+  LCD.setCursor(0, 2);
+  LCD.print("HRT for reset");
+  
+  if (enc.leftH()) {
+    LCD.setCursor(0, 0);
+    LCD.print("Reset settings");
+    for (byte i = 192; i < 255; i++) {
+      EEPROM.put(i, 0);
+      Serial.println(i);
+    }
+    LCD.setCursor(0, 1);
+    LCD.print("Reset done");
+  }
+}
+
 void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
@@ -31,7 +51,6 @@ void loop() {
   enc.tick();
 
   // =============== ЭНКОДЕР ===============
-  // обычный поворот
   if (enc.turn()) {
     Serial.println("Поворот");
     
@@ -43,11 +62,10 @@ void loop() {
     lcd.print("");
     lcd.setCursor(0, 1);
     lcd.print(enc.counter);
-    //Serial.println(enc.fast());   // проверить быстрый поворот
-    //Serial.println(enc.getDir()); // направление поворота
+    Serial.println(enc.fast());
+    Serial.println(enc.getDir());
   }
 
-  // "нажатый поворот"
   if (enc.turnH()) {
     Serial.println("Удержание + поворот");
 
@@ -59,16 +77,16 @@ void loop() {
     lcd.print("");
     lcd.setCursor(4, 1);
     lcd.print(enc.counter);
-    //Serial.println(enc.fast());   // проверить быстрый поворот
-    //Serial.println(enc.getDir()); // направление поворота
+    Serial.println(enc.fast());
+    Serial.println(enc.getDir());
   }
 
-  //if (enc.left()) Serial.println("Налево");     // поворот налево
-  //if (enc.right()) Serial.println("Направо");   // поворот направо
-  //if (enc.leftH()) Serial.println("Нажатый налево");   // нажатый поворот налево
-  //if (enc.rightH()) Serial.println("Нажатый направо"); // нажатый поворот направо
+  if (enc.left()) Serial.println("Налево");
+  if (enc.right()) Serial.println("Направо");
+  if (enc.leftH()) Serial.println("Нажатый налево");
+  if (enc.rightH()) Serial.println("Нажатый направо");
 
-  // =============== КНОПКА ===============
+  // =============== КНОПКА ЭНКОДЕРА ===============
   if (enc.click()){ 
     lcd.setCursor(10, 1);
     lcd.print(enc.clicks);
@@ -78,7 +96,6 @@ void loop() {
 
   if (enc.held()) Serial.println("Удержаниие");
 
-  // вывести количество кликов
   if (enc.hasClicks()) {
     Serial.print("Кликов: ");
     
