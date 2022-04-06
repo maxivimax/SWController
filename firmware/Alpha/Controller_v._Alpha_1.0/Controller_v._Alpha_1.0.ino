@@ -1,6 +1,6 @@
 // =============== НАСТРОЙКИ ===============
 #define PIN_RELAY 11
-#define MENU_points 6 // Тут задается кол-во пунктов меню(1-999...)
+#define MENU_points 7 // Тут задается кол-во пунктов меню(1-999...)
 
 // =============== ДЛЯ SIMPLEMENU ===============
 #define MENU_pointType_SETVAL
@@ -35,6 +35,7 @@ const menuStruct PROGMEM points [MENU_structNum] = {
   {"Min. time", pTYPE_caller, 0, 0},
   {"Max. time", pTYPE_caller, 0, 0},
   {"Info", pTYPE_caller,   0, 0},
+  {"Reset EEPROM", pTYPE_caller,   0, 0},
 };
 
 // =============== ОБЪЯВЛЕНИЕ ВСЕГО ===============
@@ -53,9 +54,6 @@ bool easter = false;
 void manualRun(){
   // Внутренний чек энкодера
   enc2.tick();
-
-  // Приравнивание изначального времени для ручного запуска к минимуму
-  mRun = minRun;
   
   // Вывод текста на экран
   LCD.setCursor(0, 0);
@@ -67,7 +65,7 @@ void manualRun(){
   if (enc2.left() and mRun<maxRun){
     mRun=mRun+0.1;
   }
-  if (enc2.right() and mRun>minRun){
+  else if (enc2.right() and mRun>minRun and mRun>0){
     mRun=mRun-0.1;
   }
 
@@ -91,12 +89,16 @@ void minTime(){
   LCD.print(minRun);
   
   // Отслеживание поворота
-  if (enc2.left()) {
+  if (enc2.left() and minRun<maxRun) {
     minRun=minRun+0.1;
+    // Приравнивание изначального времени для ручного запуска к минимуму
+    mRun = minRun;
     EEPROM.put(192, minRun); 
   }
-  if (enc2.right()){
+  if (enc2.right() and minRun>0){
     minRun=minRun-0.1;
+    // Приравнивание изначального времени для ручного запуска к минимуму
+    mRun = minRun;
     EEPROM.put(192, minRun); 
   }
 }
@@ -117,7 +119,7 @@ void maxTime(){
     maxRun=maxRun+0.1;
     EEPROM.put(200, maxRun); 
   }
-  if (enc2.right() and not maxRun-0.1<0){
+  if (enc2.right() and maxRun>minRun){
     maxRun=maxRun-0.1;
     EEPROM.put(200, maxRun); 
   }
@@ -171,6 +173,27 @@ void inform(){
   if(enc2.hasClicks(5)) easter = !easter;
 }
 
+// =============== СБРОС ДАННЫХ ===============
+void resetEEPROM(){
+  enc2.tick();
+  
+  LCD.setCursor(0, 0);
+  LCD.print("Reset EEPROM");
+  LCD.setCursor(0, 2);
+  LCD.print("HT for reset");
+  
+  if (enc.leftH() or enc.rightH()) {
+    LCD.setCursor(0, 0);
+    LCD.print("Reset settings");
+    for (byte i = 192; i < 255; i++) {
+      EEPROM.put(i, 0);
+      Serial.println(i);
+    }
+    LCD.setCursor(0, 1);
+    LCD.print("Reset done");
+  }
+}
+
 // =============== ПЕРВИЧНЫЕ ДЕЙСТВИЯ ===============
 void setup(){
   // Инициализация монитора порта
@@ -216,4 +239,5 @@ void loop(){
   menu.functionToCall(4, minTime);  
   menu.functionToCall(5, maxTime);      
   menu.functionToCall(6, inform); 
+  menu.functionToCall(7, resetEEPROM); 
 }      
