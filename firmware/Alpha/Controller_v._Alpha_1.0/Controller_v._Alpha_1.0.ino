@@ -30,7 +30,7 @@ byte CodeRight[8] = {0b01000,0b00100,0b00010,0b00001,0b00010,0b00100,0b01000,0b0
 const menuStruct PROGMEM points [MENU_structNum] = {
   {"SWC", 0, 0, 0},
   {"Run", pTYPE_view, 0, 0},
-  {"M. Run", pTYPE_caller, 0, 0},
+  {"M. run", pTYPE_caller, 0, 0},
   {"Profiles", pTYPE_view, 0, 0},
   {"Min. time", pTYPE_caller, 0, 0},
   {"Max. time", pTYPE_caller, 0, 0},
