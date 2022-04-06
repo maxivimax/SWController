@@ -1,3 +1,3 @@
 # SWController
  
-![IMG](./ReadMeIMG.png "SWC")
+![IMG](./ReadMe.png "SWC")
