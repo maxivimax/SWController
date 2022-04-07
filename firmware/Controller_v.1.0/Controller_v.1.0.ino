@@ -25,11 +25,22 @@ byte HeartRight[8] = {0b01100,0b11110,0b11111,0b11111,0b11110,0b11100,0b11000,0b
 byte CodeLeft[8] = {0b00010,0b00100,0b01000,0b10000,0b01000,0b00100,0b00010,0b00000};
 byte CodeRight[8] = {0b01000,0b00100,0b00010,0b00001,0b00010,0b00100,0b01000,0b00000};
 
+byte customChar[] = {
+  B00000,
+  B00100,
+  B00100,
+  B10101,
+  B10001,
+  B10001,
+  B01110,
+  B00000
+};
+
 // =============== ПУНКТЫ МЕНЮ ===============
 // P.S. Первый пункт матрицы (points[0]) - заголовок меню
 const menuStruct PROGMEM points [MENU_structNum] = {
   {"SWC", 0, 0, 0},
-  {"Run", pTYPE_view, 0, 0},
+  {"⛶ Run", pTYPE_view, 0, 0},
   {"M. run", pTYPE_caller, 0, 0},
   {"Profiles", pTYPE_view, 0, 0},
   {"Min. time", pTYPE_caller, 0, 0},
