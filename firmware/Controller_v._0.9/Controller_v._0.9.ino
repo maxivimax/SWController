@@ -146,9 +146,7 @@ void loop(){
          "by Maxivimax");
   
   menu.showValue(1, "WIP");  
-  menu.functionToCall(2, manualRun);      
-//  menu.functionToCall(3, minTime);  
-//  menu.functionToCall(4, maxTime);   
+  menu.functionToCall(2, manualRun);        
   menu.showValue(3, "WIP"); 
   menu.showValue(4, "WIP");
   menu.showValue(5, "WIP");    
