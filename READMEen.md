@@ -13,7 +13,6 @@ At the moment, this code for controlling the spot welding machine can:
 
 Development is underway:
 + Profiles for metal depending on their thickness
-+ Automatic selection of welding time after specifying the type of metal and its thickness
 
 ## Required modules
 
@@ -88,9 +87,9 @@ To start the NC, you need to press the encoder button and hold it down to scroll
 ## Future plans
 
 Some plans for this project \m/
-- [ ] Finish work on metal profiles.
 - [ ] Add icons for simplified use.
 - [ ] Make a 3D model of a universal housing.
+- [ ] Automatic selection of welding time after specifying the type of metal and its thickness.
 
 ## Feedback
 
