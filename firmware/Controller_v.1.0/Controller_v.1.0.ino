@@ -42,7 +42,6 @@ const menuStruct PROGMEM points [MENU_structNum] = {
   {"SWC", 0, 0, 0},
   {"P. Run", pTYPE_caller, 0, 0},
   {"M. run", pTYPE_caller, 0, 0},
-  {"Add profile", pTYPE_caller, 0, 0},
   {"Min. time", pTYPE_caller, 0, 0},
   {"Max. time", pTYPE_caller, 0, 0},
   {"Info", pTYPE_caller,   0, 0},
@@ -50,8 +49,8 @@ const menuStruct PROGMEM points [MENU_structNum] = {
 };
 
 // =============== ПРОФИЛИ ===============
-float profiles[][2] = {};
-int profilesCount = 0;
+float profiles[][2] = {{0.5, 1.0}, {1.0, 2.0}, {0.1, 0.2}};
+int profilesCount = 2;
 float newThickness = 0;
 float newTime = 0;
 
@@ -69,8 +68,6 @@ float mRun = 0;
 float maxRun = 0;
 float minRun = 0;
 bool easter = false;
-bool thick = false;
-bool ok = false;
 
 // =============== ФУНКЦИЯ "ПРОФИЛЬНЫЙ ЗАПУСК" ===============
 void profileR(){
@@ -123,67 +120,6 @@ void manualRun(){
     digitalWrite(PIN_RELAY, LOW);
     delay(mRun*1000);
     digitalWrite(PIN_RELAY, HIGH);
-  }
-}
-
-// =============== ФУНКЦИЯ "ДОБАВИТЬ ПРОФИЛЬ" ===============
-void addProfile(){
-  delay(1);
-  // Внутренний чек энкодера
-  enc2.tick();
-  
-  // Вывод текста на экран
-  if (ok){
-    LCD.setCursor(0, 0);
-    LCD.print("Saved");
-    LCD.setCursor(0, 2);
-    LCD.print("D. click for new");
-  } else if (!thick) {
-    LCD.setCursor(0, 0);
-    LCD.print("Thickness");
-    LCD.setCursor(0, 2);
-    LCD.print(newThickness);
-  } else { 
-    LCD.setCursor(0, 0);
-    LCD.print("Time");
-    LCD.setCursor(0, 2);
-    LCD.print(newTime);
-  }
-  // Отслеживание поворота
-  if (!thick) {
-    if (enc2.left()) {
-      newThickness=newThickness+0.05;
-    }
-    else if (enc2.right() and newThickness>0){
-      newThickness=newThickness-0.05;
-    }
-
-    // Далее при клике
-    if(enc2.click()){
-      thick = true;
-    }
-  } else if (thick) {
-    if (enc2.left() and newTime<maxRun) {
-      newTime=newTime+0.1;
-    }
-    else if (enc2.right() and newTime>0){
-      newTime=newTime-0.1;
-    }
- 
-    // Сохранение при клике
-    if(enc2.click()){
-      profilesCount++;
-      profiles[profilesCount][0] = newThickness;
-      profiles[profilesCount][1] = newTime;
-      thick = false;
-      ok = true;
-      EEPROM.put(208, profiles);
-      EEPROM.put(232, profilesCount);
-    }
-  }
-  // Снова
-  if(ok and enc.hasClicks(2)){
-    ok = false;
   }
 }
 
@@ -319,8 +255,6 @@ void setup(){
   // Восстановление значений переменных из EEPROM
   EEPROM.get(192, minRun);
   EEPROM.get(200, maxRun);
-  EEPROM.get(208, profiles);
-  EEPROM.get(232, profilesCount);
 }
 
 // =============== ЦИКЛ ===============
@@ -347,9 +281,8 @@ void loop(){
   // Функции для пунктов меню
   menu.functionToCall(1, profileR);  
   menu.functionToCall(2, manualRun);  
-  menu.functionToCall(3, addProfile);      
-  menu.functionToCall(4, minTime);  
-  menu.functionToCall(5, maxTime);      
-  menu.functionToCall(6, inform); 
-  menu.functionToCall(7, resetEEPROM); 
+  menu.functionToCall(3, minTime);  
+  menu.functionToCall(4, maxTime);      
+  menu.functionToCall(5, inform); 
+  menu.functionToCall(6, resetEEPROM); 
 }      
