@@ -137,7 +137,7 @@ void addProfile(){
     LCD.setCursor(0, 0);
     LCD.print("Saved");
     LCD.setCursor(0, 2);
-    LCD.print("");
+    LCD.print("D. click for new");
   } else if (!thick) {
     LCD.setCursor(0, 0);
     LCD.print("Thickness");
@@ -162,7 +162,7 @@ void addProfile(){
     if(enc2.click()){
       thick = true;
     }
-  } else {
+  } else if (thick) {
     if (enc2.left() and newTime<maxRun) {
       newTime=newTime+0.1;
     }
@@ -172,17 +172,17 @@ void addProfile(){
  
     // Сохранение при клике
     if(enc2.click()){
-      profiles[profilesCount+1][0] = newThickness;
-      profiles[profilesCount+1][1] = newTime;
       profilesCount++;
+      profiles[profilesCount][0] = newThickness;
+      profiles[profilesCount][1] = newTime;
       thick = false;
       ok = true;
       EEPROM.put(208, profiles);
       EEPROM.put(232, profilesCount);
     }
   }
-  // Сохранение при клике
-  if(enc2.held()){
+  // Снова
+  if(ok and enc.hasClicks(2)){
     ok = false;
   }
 }
